@@ -4,7 +4,7 @@ Note - example files coming soon.
 ## Generating the .srv and corresponding header file
 For a service to work, an .srv file must first be created. This states the data type for the request and response of the ROS service. For an Arduino server, there must also be a corresponding header file which describes the service in a format that Arduino can understand. Luckily for us, the rosserial library is able to autogenerate this for us.
 
-Firstly, navigate to your ROS packaage's directory. For this example let's call the package arduino_ros. For more info on creating packages, see the ROS Wiki.
+Firstly, navigate to your ROS packaage's directory. For this example let's call the package `arduino_ros`. For more info on creating packages, see the ROS Wiki.
 
 Once we have navigated to the correct directory, create a srv folder and within that create a .srv file.
 
@@ -65,7 +65,7 @@ $ catkin_make
 
 The .srv file should now have been baked into our catkin_ws ready to use. However, for the Arduino server to run, it still needs a header file so let's generate that using rosserial. Curiously the documented method of doing this is to run the following:
 ```
-rosrun rosserial_clienr make_library.py <path_to_arduino_libraries> <package_name>
+rosrun rosserial_client make_library.py <path_to_arduino_libraries> <package_name>
 ```
 However this has not worked well for me in the past. Instead I have simply navigated to the folder where my Arduino libraries are stored, removed the ros_lib and then rebuilt it again from scratch. If your arduino libraries are saves in `sketchbook` for example:
 ```
@@ -118,11 +118,9 @@ Looking at individual compononents of this sketch:
 
 `void callback........` is a function that defines what the Arduino should do when a service request is recieved. The first line is a standard formate for the test_service request and response parameters. The remainder simply tells the LED to switch on/off for each service request recieved and print a confirmation of its current state. Note that res.output is the output response, the word output is used as this was defined in our .srv file.
 
-`ros::ServiceServer<test_service::Request, test_service::Response>` standard format line to setup the response and requests for this service
+`ros::ServiceServer<test_service::Request, test_service::Response>server("test_service",&callback);` defines the action when a service request is recieved, in this case run the callback function.
 
-`server("test_service",&callback);` defines the action when a service request is recieved, in this case run the callback function.
-
-To test if this is working we can upload it to our arduino and then iniate a rosserial node on our ROS machine. The rosserial node is needed to allow communication between the Arduino and the ROS network. Ensure that the `<port_name>` matches that of the port that the Arduino is connected to.
+To test if this is working we can upload it to our arduino and then iniate a rosserial node on our ROS machine. The rosserial node is needed to allow communication between the Arduino and the ROS network. Ensure that the `<port_name>` matches the port that the Arduino is connected to.
 
 ```
 $ rosrun rosserial_python serial_node.py <port_name>
