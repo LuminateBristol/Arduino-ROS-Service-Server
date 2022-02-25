@@ -150,7 +150,7 @@ An older version of `SerialClient.py` seems to work better than the updated one.
 
 
 
-References: 
+## References: 
 1) http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
 2) https://wiki.ros.org/rosserial_client/Tutorials/Generating%20Message%20Header%20Files
 3) http://wiki.ros.org/rosserial/Tutorials/Adding%20Other%20Messages
